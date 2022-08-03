@@ -1,0 +1,53 @@
+2021-07-04T20:20:55.198Z info: GRPC User Running: 0.0.0.0:9012
+2021-07-04T20:20:55.216Z info: Backend service is running on port: 8011!
+2021-07-04T20:20:55.233Z info: Redis client connection ready
+2021-07-04T20:21:56.632Z info: GRPC User Running: 0.0.0.0:9012
+2021-07-04T20:21:56.657Z info: Backend service is running on port: 8011!
+2021-07-04T20:21:56.666Z info: Redis client connection ready
+2021-07-04T20:22:26.332Z error: Please make sure Mongodb is installed and running!
+2021-07-04T20:25:24.816Z info: GRPC User Running: 0.0.0.0:9012
+2021-07-04T20:25:24.840Z info: Backend service is running on port: 8011!
+2021-07-04T20:25:24.855Z info: Redis client connection ready
+2021-07-04T20:25:24.877Z info: Mongodb connected
+2021-07-04T20:25:24.899Z error: Init rabbitMQ failed :  connect ECONNREFUSED 127.0.0.1:5672
+2021-07-04T20:29:59.565Z info: GRPC User Running: 0.0.0.0:9012
+2021-07-04T20:29:59.588Z info: Backend service is running on port: 8011!
+2021-07-04T20:29:59.602Z info: Redis client connection ready
+2021-07-04T20:29:59.618Z info: Mongodb connected
+2021-07-04T20:29:59.641Z error: Init rabbitMQ failed :  connect ECONNREFUSED 127.0.0.1:5672
+2021-07-04T21:08:27.867Z info: GRPC User Running: 0.0.0.0:9012
+2021-07-04T21:08:27.895Z info: Backend service is running on port: 8011!
+2021-07-04T21:08:27.921Z info: Redis client connection ready
+2021-07-04T21:08:27.941Z info: Mongodb connected
+2021-07-04T21:08:27.961Z error: Init rabbitMQ failed :  connect ECONNREFUSED 127.0.0.1:5672
+2021-07-04T21:09:16.761Z info: GRPC User Running: 0.0.0.0:9012
+2021-07-04T21:09:16.794Z info: Backend service is running on port: 8011!
+2021-07-04T21:09:16.837Z info: Redis client connection ready
+2021-07-04T21:09:16.872Z info: Mongodb connected
+2021-07-04T21:09:16.907Z error: Init rabbitMQ failed :  connect ECONNREFUSED 127.0.0.1:5672
+2021-07-04T21:10:00.054Z info: GRPC User Running: 0.0.0.0:9012
+2021-07-04T21:10:00.088Z info: Backend service is running on port: 8011!
+2021-07-04T21:10:00.121Z info: Redis client connection ready
+2021-07-04T21:10:00.157Z info: Mongodb connected
+2021-07-04T21:10:00.189Z error: Init rabbitMQ failed :  connect ECONNREFUSED 127.0.0.1:5672
+2021-07-04T21:12:21.506Z info: GRPC User Running: 0.0.0.0:9012
+2021-07-04T21:12:21.540Z info: Backend service is running on port: 8011!
+2021-07-04T21:12:21.560Z info: Redis client connection ready
+2021-07-04T21:12:21.586Z info: Mongodb connected
+2021-07-04T21:12:21.611Z error: Init rabbitMQ failed :  connect ECONNREFUSED 127.0.0.1:5672
+2021-07-04T21:31:18.142Z info: GRPC User Running: 0.0.0.0:9012
+2021-07-04T21:31:18.173Z info: Backend service is running on port: 8011!
+2021-07-04T21:31:18.194Z info: Redis client connection ready
+2021-07-04T21:31:18.220Z info: Mongodb connected
+2021-07-04T21:31:18.266Z info: RabbitMQ connection ready !!!
+2021-07-04T21:31:18.727Z info: dummySomeData done
+2021-07-04T21:32:06.493Z info: GRPC User Running: 0.0.0.0:9012
+2021-07-04T21:32:06.525Z info: Backend service is running on port: 8011!
+2021-07-04T21:32:06.544Z info: Redis client connection ready
+2021-07-04T21:32:06.567Z info: Mongodb connected
+2021-07-04T21:32:06.628Z info: RabbitMQ connection ready !!!
+2021-07-04T21:32:06.678Z info: dummySomeData done
+2021-11-26T08:56:52.217Z info: GRPC User Running: 0.0.0.0:9012
+2021-11-26T08:56:52.221Z info: Backend service is running on port: 8011!
+2021-11-26T08:56:52.230Z info: Redis client connection ready
+2021-11-26T08:57:21.766Z error: Please make sure Mongodb is installed and running!

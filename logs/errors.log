@@ -1,0 +1,8 @@
+2021-07-04T20:22:26.332Z error: Please make sure Mongodb is installed and running!
+2021-07-04T20:25:24.899Z error: Init rabbitMQ failed :  connect ECONNREFUSED 127.0.0.1:5672
+2021-07-04T20:29:59.641Z error: Init rabbitMQ failed :  connect ECONNREFUSED 127.0.0.1:5672
+2021-07-04T21:08:27.961Z error: Init rabbitMQ failed :  connect ECONNREFUSED 127.0.0.1:5672
+2021-07-04T21:09:16.907Z error: Init rabbitMQ failed :  connect ECONNREFUSED 127.0.0.1:5672
+2021-07-04T21:10:00.189Z error: Init rabbitMQ failed :  connect ECONNREFUSED 127.0.0.1:5672
+2021-07-04T21:12:21.611Z error: Init rabbitMQ failed :  connect ECONNREFUSED 127.0.0.1:5672
+2021-11-26T08:57:21.766Z error: Please make sure Mongodb is installed and running!

@@ -1,0 +1,101 @@
+image: ubuntu:18.04
+
+variables:
+  DEPLOYMENT_REF: $CI_COMMIT_BRANCH-tggs-user
+  PORT: 8001
+
+stages:
+  - test
+  - build
+  - deploy_develop
+  - deploy_production
+  - send_message
+
+proccess_test:
+  stage: test
+  image: node:latest
+  cache:
+    paths:
+      - node_module/
+  before_script:
+    - npm install
+    - 'which ssh-agent || ( apk --update add openssh-client )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | ssh-add -
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - npm install -g start-server-and-test
+  script:
+    - echo -e "ZOOKEEPER_URI=$ZOOKEEPER_URI\nZOOKEEPER_COMMON_PREFIX=/$PROJECT_NAME/$CI_COMMIT_BRANCH/common\nZOOKEEPER_SERVICE_PREFIX=/$PROJECT_NAME/$CI_COMMIT_BRANCH/user\nZOOKEEPER_GRPC_PREFIX=/$PROJECT_NAME/$CI_COMMIT_BRANCH/grpc\nPORT_TEST=$PORT" > .env
+    - cat .env
+    - git submodule update --init --recursive
+    - git submodule foreach git checkout $CI_COMMIT_BRANCH
+    - git submodule foreach git pull origin $CI_COMMIT_BRANCH
+    - start-server-and-test $CI_COMMIT_BRANCH http://localhost:8001/ping exit
+  only:
+    - develop
+    - release
+
+build_image:
+  stage: build
+  image: docker:19.03.12
+  services:
+    - docker:19.03.12-dind
+  before_script:
+    - apk update
+    - apk add git
+    - 'which ssh-agent || ( apk --update add openssh-client )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | ssh-add -
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - echo "$DOCKER_USERNAME $DOCKER_PASSWORD"
+    - echo "Proccess login docker hub ... "
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD docker.io
+    # Create env
+    - echo -e "ZOOKEEPER_URI=$ZOOKEEPER_URI\nZOOKEEPER_COMMON_PREFIX=/$PROJECT_NAME/$CI_COMMIT_BRANCH/common\nZOOKEEPER_SERVICE_PREFIX=/$PROJECT_NAME/$CI_COMMIT_BRANCH/user\nZOOKEEPER_GRPC_PREFIX=/$PROJECT_NAME/$CI_COMMIT_BRANCH/grpc" > .env
+    # Firebase
+    # Update submodule
+    - git submodule update --init --recursive
+    - git submodule foreach git checkout $CI_COMMIT_BRANCH
+    - git submodule foreach git pull origin $CI_COMMIT_BRANCH
+    # Build Image
+    - if [ "$CI_COMMIT_BRANCH" == "develop" ]; then FILE_DOCKER="DockerfileDev"; else FILE_DOCKER="Dockerfile"; fi
+    - docker build -f $FILE_DOCKER -t $DOCKER_USERNAME/$DEPLOYMENT_REF:$CI_COMMIT_SHA .
+    # Push Image to Docker Hub
+    - docker push $DOCKER_USERNAME/$DEPLOYMENT_REF:$CI_COMMIT_SHA
+    - echo "Build Image Success"
+  only:
+    - develop
+    - release
+
+deploy:
+  stage: deploy_develop
+  before_script:
+    - apt-get update
+    # Setup SSH deploy keys
+    - 'which ssh-agent || ( apt-get install -y openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - if [ "$flag" == "true" ]; then IP="$IP_DEVELOP"; else IP="$IP_PRODUCTION"; fi
+    - echo "Append image $DOCKER_USERNAME/$DEPLOYMENT_REF:$CI_COMMIT_SHA"
+    - ssh tggs@$IP "sudo kubectl set image deployment/$DEPLOYMENT_REF $DEPLOYMENT_REF=$DOCKER_USERNAME/$DEPLOYMENT_REF:$CI_COMMIT_SHA"
+  only:
+    - develop
+    - release
+
+message:
+  stage: send_message
+  before_script:
+    - apt-get update && apt-get install curl -y
+  script:
+    - curl -L https://raw.githubusercontent.com/trunglt251292/message/master/message.sh --output telegram-bot.sh
+    - chmod +x telegram-bot.sh
+    - source telegram-bot.sh $CI_PROJECT_NAME $CI_COMMIT_BRANCH $GITLAB_USER_LOGIN $CI_PROJECT_URL
+  only:
+    - release
+    - develop
